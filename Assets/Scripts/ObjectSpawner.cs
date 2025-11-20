@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class ObjectSpawner : MonoBehaviour
 {
     [SerializeField] List<GameObject> spawnList;
 
