@@ -789,8 +789,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.00025677079, y: -0.99695414, z: 0.077920705, w: 0.0032865738}
+  m_LocalPosition: {x: 0.01, y: 2.27, z: 59.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -859,6 +859,7 @@ MonoBehaviour:
   speedOffsetMultiplier: 0.5
   lookAtOffset: {x: 0, y: 0, z: 2}
   rotationSpeed: 8
+  returnSpeed: 5
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1838,6 +1839,7 @@ GameObject:
   - component: {fileID: 1599603984}
   - component: {fileID: 1599603983}
   - component: {fileID: 1599603985}
+  - component: {fileID: 1599603986}
   m_Layer: 0
   m_Name: PlayerInputDetector
   m_TagString: Untagged
@@ -1892,6 +1894,18 @@ MonoBehaviour:
   maxPower: 20
   fillSpeed: 2
   powerSlider: {fileID: 778337562}
+--- !u!114 &1599603986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599603982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4ee4f18dd3a8040a995c3c74c85685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputHandler
 --- !u!1001 &1629138117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2285,12 +2299,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a71a1cdf7be2bf44a2e9dff19a8ec80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveGameManager
-  wavePrefab: {fileID: 2360322393762030872, guid: 1355b03a1e2ab0647a1b76559f42f10f, type: 3}
+  waveSpawner: {fileID: 1832266246}
   directionSelector: {fileID: 1599603983}
   powerSelector: {fileID: 1599603985}
-  cameraFollow: {fileID: 330585548}
-  spawnPoint: {fileID: 1832266242}
-  spawnOffset: {x: 0, y: 0, z: 0}
+  currentState: 0
 --- !u!4 &1799083874
 Transform:
   m_ObjectHideFlags: 0
@@ -2303,8 +2315,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1832266242}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1832266241
@@ -2318,8 +2329,9 @@ GameObject:
   - component: {fileID: 1832266242}
   - component: {fileID: 1832266245}
   - component: {fileID: 1832266244}
+  - component: {fileID: 1832266246}
   m_Layer: 0
-  m_Name: SpawnPoint
+  m_Name: WaveSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2333,13 +2345,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832266241}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 64.4}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 38.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1799083874}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!23 &1832266244
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2396,6 +2408,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832266241}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1832266246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832266241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb8a12a00b2c8754ab85c6e3f3729cc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveSpawner
+  wavePrefab: {fileID: 5800180927891302878, guid: e03e7c9546f5e99418233f9cdf4559b4, type: 3}
+  cameraFollow: {fileID: 330585548}
+  waveLifetime: 5
 --- !u!1001 &1856257780
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2618,5 +2645,6 @@ SceneRoots:
   - {fileID: 1938437425}
   - {fileID: 1599603984}
   - {fileID: 1799083874}
+  - {fileID: 1832266242}
   - {fileID: 917609418}
   - {fileID: 1021646312}

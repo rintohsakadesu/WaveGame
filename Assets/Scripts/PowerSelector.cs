@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PowerSelector : MonoBehaviour
@@ -21,22 +19,17 @@ public class PowerSelector : MonoBehaviour
         if (!isActive) return;
         
         currentPowerPercent = Mathf.PingPong(Time.time * fillSpeed, 1f);
-        Debug.Log("Power Percentage: " + currentPowerPercent);
         
         if (powerSlider != null)
         {
             powerSlider.value = currentPowerPercent;
         }
-        
-         if (Mouse.current.leftButton.wasPressedThisFrame || (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame))
-        {
-            SelectPower();
-        }
     }
     
-    void SelectPower()
+    public void ConfirmSelection()
     {
-        isActive = false;
+        if (!isActive) return;
+        
         float selectedPower = Mathf.Lerp(minPower, maxPower, currentPowerPercent);
         WaveGameEvents.InvokePowerSelected(selectedPower);
         Deactivate();

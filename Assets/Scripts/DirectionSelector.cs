@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class DirectionSelector : MonoBehaviour
@@ -25,16 +24,12 @@ public class DirectionSelector : MonoBehaviour
         {
             arrowImage.localRotation = Quaternion.Euler(0f, 0f, -currentAngle);
         }
-        
-        if (Mouse.current.leftButton.wasPressedThisFrame || (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame))
-        {
-            SelectDirection();
-        }
     }
     
-    void SelectDirection()
+    public void ConfirmSelection()
     {
-        isActive = false;
+        if (!isActive) return;
+        
         WaveGameEvents.InvokeDirectionSelected(currentAngle);
         Deactivate();
     }
