@@ -3,103 +3,101 @@ using UnityEngine;
 public class WaveGameManager : MonoBehaviour
 {
     [Header("References")]
-    public GameObject wavePrefab;
+    public WaveSpawner waveSpawner;
     public DirectionSelector directionSelector;
     public PowerSelector powerSelector;
-    public CameraFollow cameraFollow;
-    public Transform spawnPoint;
-    
-    [Header("Spawn Settings")]
-    public Vector3 spawnOffset = new Vector3(0f, 0f, 0f);
-    
+
     private float selectedAngle;
     private GameObject currentWave;
-    
+
+    public enum GameState
+    {
+        SelectingDirection,
+        SelectingPower,
+        WaveActive
+    }
+
+    public GameState currentState;
+
     void OnEnable()
     {
         WaveGameEvents.OnDirectionSelected += HandleDirectionSelected;
         WaveGameEvents.OnPowerSelected += HandlePowerSelected;
     }
-    
+
     void OnDisable()
     {
         WaveGameEvents.OnDirectionSelected -= HandleDirectionSelected;
         WaveGameEvents.OnPowerSelected -= HandlePowerSelected;
     }
-    
+
     void Start()
     {
         StartNewCycle();
     }
-    
+
     void HandleDirectionSelected(float angle)
     {
         selectedAngle = angle;
-        
+
         if (directionSelector != null)
         {
             directionSelector.Deactivate();
         }
-        
+
         if (powerSelector != null)
         {
             powerSelector.Activate();
         }
+        currentState = GameState.SelectingPower;
     }
-    
+
     void HandlePowerSelected(float power)
     {
         if (powerSelector != null)
         {
             powerSelector.Deactivate();
         }
-        
+
         SpawnWave(selectedAngle, power);
+        currentState = GameState.WaveActive;
     }
-    
+
     void SpawnWave(float angle, float power)
     {
-        if (wavePrefab == null) return;
-        
-        Vector3 spawnPosition = spawnPoint != null ? spawnPoint.position : spawnOffset;
-        currentWave = Instantiate(wavePrefab, spawnPosition, Quaternion.identity);
-        
-        WaveController waveController = currentWave.GetComponent<WaveController>();
-        if (waveController == null)
+        if (waveSpawner == null)
         {
-            waveController = currentWave.AddComponent<WaveController>();
+            Debug.LogError("WaveSpawner is not assigned!");
+            return;
         }
-        
-        Vector3 direction = GetDirectionFromAngle(angle);
-        waveController.Initialize(direction, power);
-        
-        if (cameraFollow != null)
+
+        currentWave = waveSpawner.SpawnWave(angle, power);
+
+        if (currentWave != null)
         {
-            cameraFollow.SetTarget(currentWave.transform);
+            float lifetime = waveSpawner.GetWaveLifetime();
+            Invoke(nameof(OnWaveLifetimeEnded), lifetime + 1f);
         }
-        
-        WaveGameEvents.InvokeWaveSpawned(direction, power);
-        
-        Invoke(nameof(OnWaveLifetimeEnded), waveController.lifetime + 1f);
     }
-    
+
     void OnWaveLifetimeEnded()
     {
         WaveGameEvents.InvokeWaveDestroyed();
+
+        if (waveSpawner != null && waveSpawner.cameraFollow != null)
+        {
+            waveSpawner.cameraFollow.ReturnToOriginalPosition();
+        }
+
         StartNewCycle();
     }
-    
+
     void StartNewCycle()
     {
         if (directionSelector != null)
         {
             directionSelector.Activate();
+            currentState = GameState.SelectingDirection;
         }
-    }
-    
-    Vector3 GetDirectionFromAngle(float angle)
-    {
-        float radians = angle * Mathf.Deg2Rad;
-        return new Vector3(Mathf.Sin(radians), 0f, Mathf.Cos(radians)).normalized;
     }
 }
