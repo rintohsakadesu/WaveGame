@@ -10,6 +10,8 @@ public class WaveGameManager : MonoBehaviour
     private float selectedAngle;
     private GameObject currentWave;
 
+    public AudioClip bgpmToPlay;
+
     public enum GameState
     {
         SelectingDirection,
@@ -33,6 +35,7 @@ public class WaveGameManager : MonoBehaviour
 
     void Start()
     {
+        AudioManager.Instance.PlayBgm(bgpmToPlay);
         StartNewCycle();
     }
 
