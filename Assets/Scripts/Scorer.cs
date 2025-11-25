@@ -1,16 +1,24 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Scorer : MonoBehaviour
 {
-   int score = 0;
+    GameObject eventSystem;
+    ScoreKeeper myScoreKeeper;
+    public void Start()
+    {
+        eventSystem= GameObject.FindWithTag("EventSystem");
+        myScoreKeeper = eventSystem.GetComponent<ScoreKeeper>();
+    }
 
-    void OnCollisionEnter(Collision collision)
+    
+
+    public void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag=="Target")
         {
             int points = collision.gameObject.GetComponent<Targets>().GetPoints();
-            score += points;
+            myScoreKeeper.AddPoints(points);
         }
-        Debug.Log(score);
     }
 }

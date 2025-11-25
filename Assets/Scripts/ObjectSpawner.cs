@@ -38,7 +38,7 @@ public class ObjectSpawner : MonoBehaviour
             }
     
         }
-        Debug.Log(spawn);
+        
         spawnPoints.Add(spawn);
         return spawn;
     }

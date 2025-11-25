@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9153570231132662036}
   - component: {fileID: 5237350498857283002}
   - component: {fileID: 1130523396977229281}
+  - component: {fileID: 8032150964240980466}
   m_Layer: 0
   m_Name: WaveCube
   m_TagString: Untagged
@@ -127,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveController
   lifetime: 10
-  pushForce: 500
+  basePushForce: 500
   splashEffect: {fileID: 271532742608353526, guid: 4c91526e3d425ed4085e5d2f95fda667, type: 3}
   continuousSplash: 1
   waveParticleOrigin: {fileID: 292005890621534491}
@@ -161,6 +162,19 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8032150964240980466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5800180927891302878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f28ac3d467d6e2a4b85e4a44e5c7c825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Scorer
+  eventSystem: {fileID: 0}
 --- !u!1 &8061079635050829609
 GameObject:
   m_ObjectHideFlags: 0
