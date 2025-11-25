@@ -8,6 +8,9 @@ public class WaveSpawner : MonoBehaviour
     
     [Header("Wave Settings")]
     public float waveLifetime = 5f;
+
+    [Header("Audio Settings")]
+    public int waveSpawnSfxIndex = 0;
     
     public GameObject SpawnWave(float angle, float power)
     {
@@ -16,6 +19,8 @@ public class WaveSpawner : MonoBehaviour
             Debug.LogError("Wave prefab is not assigned!");
             return null;
         }
+
+        AudioManager.Instance.PlaySfxOneShot(waveSpawnSfxIndex); // Play wave spawn sound effect
         
         Quaternion rotation = transform.rotation * Quaternion.Euler(0f, angle, 0f);
         GameObject wave = Instantiate(wavePrefab, transform.position, rotation);
